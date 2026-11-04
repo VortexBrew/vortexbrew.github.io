@@ -1,0 +1,29 @@
+[build]
+  publish = "."
+
+[[headers]]
+  for = "/*.bin"
+  [headers.values]
+    Content-Type = "application/octet-stream"
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/patches/*"
+  [headers.values]
+    Content-Type = "application/octet-stream"
+
+[[headers]]
+  for = "/cache.appcache"
+  [headers.values]
+    Content-Type = "text/cache-manifest"
+    Cache-Control = "no-cache"
+
+[[redirects]]
+  from = "/jb"
+  to = "/jb.html"
+  status = 200
+
+[[redirects]]
+  from = "/*"
+  to = "/:splat"
+  status = 200

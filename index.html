@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en" manifest="cache.appcache">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PS4 13.50 &middot; GoldHEN</title>
+<style>
+:root{
+  --fg:#e3ebf7; --dim:#8494aa; --line:rgba(125,160,205,.14);
+  --accent:#3b8cff; --ok:#57e3a0; --bad:#ff7a6b; --warn:#ffc76b;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{
+  background:#06080c; color:var(--fg); overflow:hidden;
+  font:16px/1.5 "Segoe UI",system-ui,-apple-system,sans-serif;
+  display:flex; align-items:center; justify-content:center;
+}
+body:before{
+  content:""; position:fixed; inset:-30%;
+  background:
+    radial-gradient(45% 40% at 50% 8%, rgba(59,140,255,.28), transparent 70%),
+    radial-gradient(35% 30% at 15% 90%, rgba(120,80,255,.18), transparent 70%),
+    radial-gradient(35% 30% at 85% 85%, rgba(0,220,180,.12), transparent 70%);
+  animation:breathe 9s ease-in-out infinite alternate;
+}
+@keyframes breathe{from{transform:scale(1);opacity:.85}to{transform:scale(1.08);opacity:1}}
+.card{
+  position:relative; width:min(660px,88vw); padding:30px 38px 18px;
+  background:rgba(14,19,27,.72); border:1px solid var(--line); border-radius:22px;
+  box-shadow:0 30px 70px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.05);
+  backdrop-filter:blur(14px); text-align:center;
+}
+.top{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.mark{display:flex;align-items:center;gap:11px}
+.orb{
+  width:30px;height:30px;border-radius:9px;
+  background:linear-gradient(145deg,#4f9dff,#1b56d6);
+  box-shadow:0 0 18px rgba(59,140,255,.6), inset 0 1px 0 rgba(255,255,255,.4);
+}
+.mark b{font-size:13px;letter-spacing:.24em;font-weight:700;color:#cfe0f6}
+.chip{
+  font-size:12px;letter-spacing:.14em; padding:5px 12px; border-radius:999px;
+  border:1px solid rgba(87,227,160,.35); color:var(--ok);
+  background:rgba(87,227,160,.08);
+}
+.chip.bad{border-color:rgba(255,122,107,.35);color:var(--bad);background:rgba(255,122,107,.08)}
+.ring{position:relative;width:216px;height:216px;margin:0 auto 16px}
+.ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring circle{fill:none;stroke-width:7;stroke-linecap:round}
+.track{stroke:rgba(125,160,205,.13)}
+.bar{stroke:url(#grad);transition:stroke-dashoffset .45s cubic-bezier(.4,0,.2,1);
+     filter:drop-shadow(0 0 9px rgba(59,140,255,.65))}
+.ring .core{
+  position:absolute;inset:0;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:3px;
+}
+.ring .num{font-size:44px;font-weight:800;letter-spacing:-.02em;line-height:1}
+.ring .cap{font-size:11px;letter-spacing:.26em;color:var(--dim)}
+.status{font-size:20px;font-weight:700;margin:2px 0 6px}
+.sub{font-size:13px;color:var(--dim);min-height:19px}
+.sub b{color:#b9cbe3;font-weight:600}
+
+.go{
+  margin:18px auto 0; display:block; padding:16px 52px; border:0; cursor:pointer;
+  border-radius:999px; font:700 17px/1 "Segoe UI",system-ui,sans-serif;
+  letter-spacing:.18em; color:#06121f;
+  background:linear-gradient(135deg,#7ee0c0,#4f9dff);
+  box-shadow:0 10px 30px rgba(59,140,255,.45), inset 0 1px 0 rgba(255,255,255,.5);
+  animation:glow 2.1s ease-in-out infinite alternate;
+}
+.go:active{transform:scale(.97)}
+.go:focus{outline:3px solid rgba(126,224,192,.6); outline-offset:4px}
+@keyframes glow{from{box-shadow:0 10px 26px rgba(59,140,255,.35)}
+                to{box-shadow:0 10px 40px rgba(59,140,255,.75)}}
+.hint{margin-top:9px;font-size:11.5px;color:#63728a;letter-spacing:.08em}
+body.running .go,body.running .hint{display:none}
+
+.foot{
+  margin-top:20px;padding-top:14px;border-top:1px solid var(--line);
+  display:flex;justify-content:space-between;font-size:11.5px;color:#63728a;
+  letter-spacing:.06em;
+}
+.credit{margin-top:10px;text-align:center;font-size:10.5px;letter-spacing:.22em;
+        color:#47546a;text-transform:uppercase}
+.credit span{color:#6f8fb8}
+.ok{color:var(--ok)} .bad{color:var(--bad)} .warn{color:var(--warn)}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="top">
+    <div class="mark"><div class="orb"></div><b>GOLDHEN</b></div>
+    <div class="chip" id="chip">FW DETECTING</div>
+  </div>
+
+  <div class="ring">
+    <svg viewBox="0 0 216 216">
+      <defs>
+        <linearGradient id="grad" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#5aa8ff"/>
+          <stop offset=".55" stop-color="#3b8cff"/>
+          <stop offset="1" stop-color="#7ee0c0"/>
+        </linearGradient>
+      </defs>
+      <circle class="track" cx="108" cy="108" r="97"/>
+      <circle class="bar" id="bar" cx="108" cy="108" r="97"
+              stroke-dasharray="609.47" stroke-dashoffset="609.47"/>
+    </svg>
+    <div class="core">
+      <div class="num" id="num">0<span style="font-size:20px">%</span></div>
+      <div class="cap" id="phase">IDLE</div>
+    </div>
+  </div>
+
+  <div class="status" id="status">Waiting for you&hellip;</div>
+  <div class="sub" id="sub"></div>
+
+  <button class="go" id="go" autofocus>START JAILBREAK</button>
+  <div class="hint">press the button or ENTER &middot; console must be on 13.50</div>
+
+  <div class="foot">
+    <span>PS4 &middot; 13.02 &ndash; 13.52 CHAIN</span>
+    <span id="cache">CACHE: CHECKING</span>
+  </div>
+  <div class="credit">coded by <span>fico</span></div>
+</div>
+
+<script>
+(function () {
+  var CIRC = 2 * Math.PI * 97;
+  var bar    = document.getElementById("bar");
+  var num    = document.getElementById("num");
+  var phase  = document.getElementById("phase");
+  var status = document.getElementById("status");
+  var sub    = document.getElementById("sub");
+  var chip   = document.getElementById("chip");
+  var cache  = document.getElementById("cache");
+  var goBtn  = document.getElementById("go");
+  var pct = 0, started = false;
+
+  function setProgress(v, phaseText) {
+    pct = Math.max(pct, Math.min(100, v));
+    bar.setAttribute("stroke-dashoffset", CIRC * (1 - pct / 100));
+    num.innerHTML = Math.round(pct) + '<span style="font-size:20px">%</span>';
+    if (phaseText) phase.textContent = phaseText.toUpperCase();
+  }
+  function setStatus(t, cls) {
+    status.textContent = t;
+    status.className = "status " + (cls || "");
+  }
+
+  // ---- firmware detection ----
+  var m = /PlayStation\s+4[\/ ](\d+)\.(\d+)/.exec(navigator.userAgent);
+  var key = null, fwnum = null;
+  if (m) {
+    var ms = parseInt(m[2], 16).toString(16);
+    if (ms.length < 2) ms = "0" + ms;
+    key = m[1] + "." + ms;
+    fwnum = parseInt(m[1], 10) * 100 + parseInt(ms, 10);
+  }
+  var SUPPORTED = { 1302: 1, 1304: 1, 1350: 1, 1352: 1 };
+  var params = new URLSearchParams(location.search);
+  var forced = params.get("force") === "1";
+  var supported = forced || (fwnum !== null && SUPPORTED[fwnum] === 1);
+
+  chip.textContent = "FW " + (key || "UNKNOWN");
+  chip.className = "chip" + (supported ? "" : " bad");
+  sub.innerHTML = "kernel table <b>" + (supported ? "matched" : "not listed") +
+                  "</b> &middot; bug 663 webkit &middot; aio kernel race";
+  setProgress(8, "ready");
+  setStatus(supported ? "Ready to arm the chain." : "Firmware not listed \u2014 you can still try.", "warn");
+
+  function targetUrl() {
+    var q = "start=1";
+    if (forced) q += "&force=1";
+    if (params.get("log") === "1") q += "&log=1";
+    return "jb.html?" + q;
+  }
+
+  function go() {
+    setProgress(100, "launch");
+    setStatus("Handing over to the exploit chain\u2026", "warn");
+    setTimeout(function () { location.replace(targetUrl()); }, 350);
+  }
+
+  function waitCached() {
+    setStatus("Caching exploit for offline use\u2026", "warn");
+    setProgress(12, "cache");
+    var ac = window.applicationCache;
+    ac.addEventListener("progress", function (e) {
+      if (e && e.total) {
+        var p = Math.round(e.loaded / e.total * 100);
+        cache.textContent = "CACHE: " + p + "%";
+        setProgress(12 + p * 0.78, "cache " + p + "%");
+      }
+    }, false);
+    ac.addEventListener("cached", function () {
+      cache.textContent = "CACHE: OFFLINE-READY";
+      setProgress(92, "cached");
+      setStatus("Cached. Starting\u2026", "ok");
+      setTimeout(go, 1200);
+    }, false);
+    ac.addEventListener("noupdate", function () {
+      cache.textContent = "CACHE: READY";
+      go();
+    }, false);
+    ac.addEventListener("error", function () {
+      cache.textContent = "CACHE: UNAVAILABLE";
+      setStatus("Cache unavailable \u2014 running online.", "warn");
+      setTimeout(go, 900);
+    }, false);
+    ac.update();
+  }
+
+  function start() {
+    if (started) return;
+    started = true;
+    document.body.classList.add("running");
+
+    var ac = window.applicationCache;
+    if (!ac || !document.documentElement.hasAttribute("manifest")) { go(); return; }
+    if (!navigator.onLine) {
+      cache.textContent = "CACHE: OFFLINE-READY";
+      setProgress(92, "cached");
+      go(); return;
+    }
+    if (ac.status === ac.IDLE) {
+      cache.textContent = "CACHE: READY";
+      setProgress(92, "cached");
+      go(); return;
+    }
+    waitCached();
+  }
+
+  goBtn.addEventListener("click", start, false);
+  document.addEventListener("keydown", function (e) {
+    if ((e.key === "Enter" || e.keyCode === 13) && !started) { e.preventDefault(); start(); }
+  }, false);
+  try { goBtn.focus(); } catch (e) {}
+})();
+</script>
+</body>
+</html>
