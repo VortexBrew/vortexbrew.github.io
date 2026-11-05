@@ -188,29 +188,43 @@ body.running .go,body.running .hint{display:none}
     setStatus("Caching exploit for offline use\u2026", "warn");
     setProgress(12, "cache");
     var ac = window.applicationCache;
+    var done = false;
+    function finish(msg, cls) {
+      if (done) return;
+      done = true;
+      setStatus(msg, cls);
+      go();
+    }
+    // watchdog: never let the cache check trap us -- proceed after 15s no matter what
+    setTimeout(function () { finish("Cache slow/unavailable \u2014 running online.", "warn"); }, 15000);
+
     ac.addEventListener("progress", function (e) {
       if (e && e.total) {
         var p = Math.round(e.loaded / e.total * 100);
         cache.textContent = "CACHE: " + p + "%";
         setProgress(12 + p * 0.78, "cache " + p + "%");
+      } else {
+        cache.textContent = "CACHE: DOWNLOADING";
       }
     }, false);
     ac.addEventListener("cached", function () {
       cache.textContent = "CACHE: OFFLINE-READY";
       setProgress(92, "cached");
-      setStatus("Cached. Starting\u2026", "ok");
-      setTimeout(go, 1200);
+      finish("Cached. Starting\u2026", "ok");
     }, false);
     ac.addEventListener("noupdate", function () {
       cache.textContent = "CACHE: READY";
-      go();
+      setProgress(92, "cached");
+      finish("Ready.", "ok");
     }, false);
-    ac.addEventListener("error", function () {
-      cache.textContent = "CACHE: UNAVAILABLE";
-      setStatus("Cache unavailable \u2014 running online.", "warn");
-      setTimeout(go, 900);
+    ac.addEventListener("updateready", function () {
+      try { ac.swapCache(); } catch (e) {}
+      finish("Updated. Reloading\u2026", "warn");
+      setTimeout(function () { location.reload(); }, 800);
     }, false);
-    ac.update();
+    ac.addEventListener("error",    function () { finish("Cache failed \u2014 running online.", "warn"); }, false);
+    ac.addEventListener("obsolete", function () { finish("Cache obsolete \u2014 running online.", "warn"); }, false);
+    try { ac.update(); } catch (e) { finish("Running online.", "warn"); }
   }
 
   function start() {
