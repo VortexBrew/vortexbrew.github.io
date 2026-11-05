@@ -21,58 +21,70 @@ body:after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opac
   background-image:linear-gradient(rgba(130,170,220,.05) 1px,transparent 1px),
                    linear-gradient(90deg,rgba(130,170,220,.05) 1px,transparent 1px);
   background-size:52px 52px}
-.wrap{max-width:880px;margin:0 auto}
-.head{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:18px}
+.wrap{max-width:900px;margin:0 auto}
+.head{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:16px}
 .mark{display:flex;align-items:center;gap:11px}
 .orb{width:28px;height:28px;border-radius:9px;background:linear-gradient(145deg,#5aa8ff,#1b3fd6);
   box-shadow:0 0 20px rgba(59,140,255,.7),inset 0 1px 0 rgba(255,255,255,.45)}
 .mark b{font-size:12px;letter-spacing:.28em;color:#d6e4f8}
-h1{font-size:30px;margin:0 0 2px;letter-spacing:-.02em;
+h1{font-size:28px;margin:0 0 2px;letter-spacing:-.02em;
   background:linear-gradient(135deg,#fff,#8fd0ff 60%,#7ee0c0);
   -webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.sub{font-size:12.5px;color:var(--dim);margin-bottom:18px}
-.grid{display:flex;flex-wrap:wrap;gap:14px}
-.card{flex:1 1 250px;padding:16px 18px;border-radius:18px;
-  background:linear-gradient(180deg,rgba(18,24,34,.9),rgba(10,14,20,.94));
-  border:1px solid var(--line);box-shadow:0 18px 44px rgba(0,0,0,.55);
-  position:relative;overflow:hidden}
-.card h2{font-size:12px;letter-spacing:.2em;color:#a9c1dc;margin:0 0 4px;text-transform:uppercase}
-.card p{font-size:11.5px;color:#6d7f97;margin:0 0 14px;min-height:32px}
-.val{font-size:26px;font-weight:800;letter-spacing:-.02em;margin-bottom:8px}
-.val small{font-size:12px;color:#7c8fa8;font-weight:600;margin-left:3px}
-input[type=range]{-webkit-appearance:none;width:100%;height:4px;border-radius:9px;
-  background:linear-gradient(90deg,#5aa8ff,#7ee0c0);outline:none;margin:6px 0 12px}
-input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;
-  border-radius:50%;background:#eaf6ff;border:2px solid #5aa8ff;
-  box-shadow:0 0 14px rgba(90,168,255,.9);cursor:pointer}
-select,input[type=text]{width:100%;padding:10px 12px;border-radius:11px;margin-bottom:12px;
+.sub{font-size:12.5px;color:var(--dim);margin-bottom:16px}
+.panel{padding:16px 18px;border-radius:18px;margin-bottom:16px;
+  background:linear-gradient(180deg,rgba(18,24,34,.92),rgba(10,14,20,.94));
+  border:1px solid var(--line);box-shadow:0 18px 44px rgba(0,0,0,.55)}
+.panel h2{font-size:11.5px;letter-spacing:.22em;color:#a9c1dc;margin:0 0 10px;text-transform:uppercase}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+label.f{flex:1 1 150px;min-width:0}
+label.f span{display:block;font-size:10px;letter-spacing:.16em;color:#63768f;margin-bottom:5px}
+input,select{width:100%;padding:10px 12px;border-radius:11px;
   background:rgba(255,255,255,.04);color:var(--fg);border:1px solid var(--line);
   font:600 13px/1 "Segoe UI",system-ui,sans-serif;outline:none}
-.btn{display:inline-block;padding:11px 22px;border:0;border-radius:999px;cursor:pointer;
-  font:700 11.5px/1 "Segoe UI",system-ui,sans-serif;letter-spacing:.18em;color:#04121e;
+input:focus,select:focus{border-color:rgba(90,168,255,.6);box-shadow:0 0 0 3px rgba(90,168,255,.12)}
+.btn{padding:11px 20px;border:0;border-radius:999px;cursor:pointer;white-space:nowrap;
+  font:700 11.5px/1 "Segoe UI",system-ui,sans-serif;letter-spacing:.16em;color:#04121e;
   background:linear-gradient(135deg,#7ee0c0,#5aa8ff);
-  box-shadow:0 8px 24px rgba(59,140,255,.45);text-decoration:none}
+  box-shadow:0 8px 24px rgba(59,140,255,.4)}
 .btn:active{transform:scale(.97)}
 .btn.ghost{background:transparent;color:#b8cde6;border:1px solid rgba(130,170,220,.32);
   box-shadow:none}
 .btn.ghost:hover{border-color:rgba(126,224,192,.6);color:#dff6ee}
-.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
-.out{margin-top:16px;padding:12px 14px;border-radius:14px;border:1px solid var(--line);
-  background:rgba(6,10,16,.8);font:11.5px/1.5 ui-monospace,Consolas,monospace;
-  color:#93a7c2;white-space:pre-wrap;min-height:44px}
+.btn.sm{padding:9px 16px;font-size:10.5px}
+.grid{display:flex;flex-wrap:wrap;gap:12px}
+.card{flex:1 1 260px;padding:14px 16px;border-radius:16px;position:relative;
+  background:linear-gradient(180deg,rgba(20,27,38,.95),rgba(11,15,22,.97));
+  border:1px solid var(--line);transition:border-color .25s}
+.card:hover{border-color:rgba(90,168,255,.45)}
+.card h3{font-size:12.5px;margin:0 0 5px;letter-spacing:.05em;color:#e2eefa}
+.card p{font-size:11.5px;color:#6d7f97;margin:0 0 11px;min-height:30px}
+.tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:11px}
+.tag{font-size:9px;letter-spacing:.14em;padding:3px 8px;border-radius:999px;
+  border:1px solid rgba(130,170,220,.28);color:#8fabc8}
+.tag.p{color:#7ee0c0;border-color:rgba(126,224,192,.35);background:rgba(126,224,192,.07)}
+.card .btn{width:100%;text-align:center}
+.card.sent{border-color:rgba(87,227,160,.5)}
+.card.sent:after{content:"SENT";position:absolute;top:10px;right:12px;font-size:8.5px;
+  letter-spacing:.2em;color:#57e3a0}
+.out{margin-top:4px;padding:12px 14px;border-radius:14px;border:1px solid var(--line);
+  background:rgba(6,10,16,.85);font:11.5px/1.55 ui-monospace,Consolas,monospace;
+  color:#93a7c2;white-space:pre-wrap;height:120px;overflow:auto}
 .out b{color:#7ee0c0}
-.note{font-size:11px;color:#5d6d84;margin-top:14px;line-height:1.6}
-.badge{font-size:9.5px;letter-spacing:.16em;padding:3px 9px;border-radius:999px;
-  border:1px solid rgba(126,224,192,.4);color:#7ee0c0;background:rgba(126,224,192,.08);
-  margin-left:8px;vertical-align:middle}
-.badge.warn{border-color:rgba(255,199,107,.4);color:#ffc76b;background:rgba(255,199,107,.08)}
-.credit{text-align:center;margin-top:24px;font-size:10px;letter-spacing:.26em;
+.note{font-size:11px;color:#5d6d84;margin-top:14px;line-height:1.65}
+.note code{color:#9fb4cd;background:rgba(255,255,255,.05);padding:1px 5px;border-radius:5px}
+.credit{text-align:center;margin-top:22px;font-size:10px;letter-spacing:.26em;
   color:#414e63;text-transform:uppercase}
 .credit span{color:#6f8fb8}
+.warnbar{display:none;padding:10px 14px;border-radius:12px;margin-bottom:14px;
+  font-size:12px;letter-spacing:.04em;color:#ffc76b;
+  border:1px solid rgba(255,199,107,.4);background:rgba(255,199,107,.08)}
+body.onhttps .warnbar{display:block}
 </style>
 </head>
 <body>
 <div class="wrap">
+  <div class="warnbar" id="warnbar"></div>
+
   <div class="head">
     <div class="mark"><div class="orb"></div><b>GOLDHEN</b></div>
     <div class="row">
@@ -82,66 +94,59 @@ select,input[type=text]{width:100%;padding:10px 12px;border-radius:11px;margin-b
   </div>
 
   <h1>Payloads</h1>
-  <div class="sub">Everything below is sent to the console over the local network, so the PS4 and this browser must be on the same Wi-Fi.</div>
+  <div class="sub" id="sub">Payloads are POSTed to the console over your LAN.</div>
 
-  <div class="grid">
-    <div class="card">
-      <h2>Console address</h2>
-      <p>The PS4's LAN IP. Find it in Settings &rarr; Network &rarr; View Connection Status.</p>
-      <input type="text" id="ip" placeholder="192.168.1.50" value="">
-      <div class="row">
-        <button class="btn" id="test">TEST</button>
-        <button class="btn ghost" id="save">SAVE</button>
-      </div>
+  <div class="panel">
+    <h2>Console</h2>
+    <div class="row">
+      <label class="f"><span>PS4 IP</span>
+        <input type="text" id="ip" placeholder="192.168.1.50"></label>
+      <label class="f"><span>Payload port</span>
+        <select id="port">
+          <option value="9020" selected>9020 &middot; GoldHEN PayLoader</option>
+          <option value="9090">9090 &middot; BinLoader</option>
+        </select></label>
+      <button class="btn" id="test">TEST CONNECTION</button>
+      <button class="btn ghost" id="save">SAVE</button>
     </div>
+  </div>
 
-    <div class="card">
-      <h2>Fan threshold <span class="badge">GOLDHEN</span></h2>
-      <p>Target temperature before the fan ramps up. Lower = cooler console, louder.</p>
-      <div class="val"><span id="fanv">68</span><small>&deg;C</small></div>
-      <input type="range" id="fan" min="40" max="90" step="1" value="68">
-      <button class="btn" id="fanbtn">APPLY</button>
+  <div class="grid" id="grid"></div>
+
+  <div class="panel" style="margin-top:16px">
+    <h2>Custom payload or local file</h2>
+    <div class="row">
+      <label class="f"><span>Path or URL on this site</span>
+        <input type="text" id="custom" placeholder="payloads/my-payload.bin"></label>
+      <button class="btn sm" id="custombtn">SEND</button>
     </div>
-
-    <div class="card">
-      <h2>Firmware spoof <span class="badge warn">PAYLOAD</span></h2>
-      <p>Reports a different system version to games and PSN. Needs the matching spoof payload in /payloads/.</p>
-      <select id="spoof">
-        <option>9.00</option><option>9.60</option><option>10.50</option>
-        <option>11.00</option><option>12.00</option><option selected>13.50</option>
-        <option>13.52</option><option>14.00</option>
-      </select>
-      <button class="btn" id="spoofbtn">APPLY</button>
+    <div class="row" style="margin-top:10px">
+      <label class="f"><span>Or pick a .bin from this device</span>
+        <input type="file" id="file" accept=".bin"></label>
+      <button class="btn sm" id="filebtn">UPLOAD &amp; SEND</button>
     </div>
+  </div>
 
-    <div class="card">
-      <h2>Services</h2>
-      <p>Toggle the helper payloads GoldHEN can host from the jailbroken console.</p>
-      <div class="row" style="margin-bottom:12px">
-        <button class="btn" id="ftpbtn">FTP 2121</button>
-        <button class="btn ghost" id="binbtn">BINLOADER 9090</button>
-      </div>
-      <div class="row">
-        <button class="btn ghost" id="restartbtn">RESTART GOLDHEN</button>
-      </div>
+  <div class="panel">
+    <h2>FTP &middot; file transfer only (port 2121)</h2>
+    <div class="row">
+      <label class="f"><span>Host</span><input type="text" id="ftphost" placeholder="192.168.1.50"></label>
+      <label class="f"><span>Port</span><input type="text" id="ftpport" value="2121"></label>
+      <button class="btn ghost sm" id="ftpbtn">OPEN FTP</button>
+      <button class="btn ghost sm" id="ftpcopy">COPY</button>
     </div>
-
-    <div class="card" style="flex:1 1 100%">
-      <h2>Custom payload</h2>
-      <p>Send any <code>.bin</code> payload to the console at port 9020 &mdash; the standard GoldHEN payload port.</p>
-      <div class="row">
-        <input type="text" id="custom" placeholder="payloads/my-payload.bin" style="flex:1 1 240px;margin:0">
-        <button class="btn" id="custombtn">SEND</button>
-      </div>
+    <div class="note" style="margin-top:10px">
+      GoldHEN's FTP server runs on <code>2121</code> (user <code>anonymous</code>, no password). A browser cannot
+      speak FTP, so this opens <code>ftp://ip:2121/</code> in Windows Explorer / FileZilla &mdash; use it to drop
+      <code>.bin</code> files into <code>/data/payloads/</code>. Execution happens over the payload port above.
     </div>
   </div>
 
   <div class="out" id="out">ready.</div>
 
   <div class="note">
-    Fan threshold and firmware spoof also live natively in GoldHEN: press the <b>PS button</b> while a game is
-    running &rarr; <b>GoldHEN Settings</b>. The controls above are shortcuts that push the equivalent payload from
-    <code>/payloads/</code>; if a file is missing you'll get an error naming exactly what to drop in.
+    Fan threshold and firmware spoof also exist natively: <b>PS button &rarr; GoldHEN Settings</b>.
+    Every card expects a matching file in <code>/payloads/</code> &mdash; a missing file reports its exact name.
   </div>
 
   <div class="credit">coded by <span>fico</span></div>
@@ -149,74 +154,183 @@ select,input[type=text]{width:100%;padding:10px 12px;border-radius:11px;margin-b
 
 <script>
 (function () {
-  var out=document.getElementById("out");
-  var ipEl=document.getElementById("ip");
-  var PORT=9020;
+  var out=document.getElementById("out"), ipEl=document.getElementById("ip"),
+      portEl=document.getElementById("port"), ftpEl=document.getElementById("ftphost");
 
-  function say(msg, cls){
+  function say(msg, color){
     var t=new Date().toTimeString().slice(0,8);
-    out.innerHTML='<b>['+t+']</b> '+(cls?'<span style="color:'+cls+'">':'')+msg+
-                  (cls?'</span>':'')+'\n'+out.innerHTML.split("\n").slice(0,6).join("\n");
+    out.innerHTML='<b>['+t+']</b> '+(color?'<span style="color:'+color+'">'+msg+'</span>':msg)
+      +"\n"+out.innerHTML.split("\n").slice(0,10).join("\n");
   }
 
-  try{ ipEl.value=localStorage.getItem("ps4ip")||""; }catch(e){}
+  // ---------- console auto-detection ----------
+  // opened in the PS4 browser -> the console IS localhost, popular-host style.
+  var ON_PS4 = /PlayStation\s+4/i.test(navigator.userAgent);
+  try{ ON_PS4 = ON_PS4 || (localStorage.getItem("onps4")==="1"); }catch(e){}
 
-  document.getElementById("save").onclick=function(){
-    try{ localStorage.setItem("ps4ip", ipEl.value.trim()); }catch(e){}
-    say("address saved: "+ipEl.value.trim(),"#7ee0c0");
-  };
+  var savedIP = "";
+  try{ savedIP = localStorage.getItem("ps4ip") || ""; }catch(e){}
 
-  function base(){ return "http://"+(ipEl.value.trim()||"192.168.1.50")+":"+PORT+"/"; }
-
-  // POST a binary to the payload port. no-cors: the console has no CORS headers,
-  // so we fire-and-forget and treat "no throw" as sent.
-  function send(buf, label){
-    return fetch(base(), {method:"POST", mode:"no-cors", body:buf})
-      .then(function(){ say("sent: "+label,"#7ee0c0"); })
-      .catch(function(e){ say("failed: "+label+" ("+(e.message||e)+")","#ff7a6b"); });
+  function base(){
+    if (ON_PS4 && !savedIP) return "http://127.0.0.1:" + portEl.value + "/";
+    return "http://" + (ipEl.value.trim() || "192.168.1.50") + ":" + portEl.value + "/";
   }
 
-  function sendFile(path, label){
-    say("fetching "+path);
-    return fetch(path,{cache:"no-cache"})
-      .then(function(r){ if(!r.ok) throw new Error("HTTP "+r.status+" for "+path);
+  // ---------- mixed-content awareness ----------
+  function mixedBlocked(){
+    return location.protocol === "https:"
+      ? "blocked: HTTPS page -> HTTP console. Open this page via http:// (LAN server / Neocities)."
+      : "no answer: is GoldHEN running? (9020 = PayLoader, 9090 = BinLoader).";
+  }
+
+  function remember(){
+    try{ localStorage.setItem("ps4ip", savedIP || "");
+         localStorage.setItem("ps4port", portEl.value);
+         if (ON_PS4) localStorage.setItem("onps4","1"); }catch(e){}
+  }
+
+  // fire-and-forget POST: no CORS headers on the console, reply unreadable
+  function post(buf, label, card){
+    say("sending "+label+" -> "+base());
+    fetch(base(), {method:"POST", mode:"no-cors", body:buf})
+      .then(function(){
+        say("sent: "+label, "#7ee0c0");
+        if(card){ card.className="card sent"; }
+      })
+      .catch(function(e){ say("failed: "+label+" -- "+mixedBlocked(), "#ff7a6b"); });
+  }
+
+  function sendPath(path, label, card){
+    fetch(path, {cache:"no-cache"})
+      .then(function(r){ if(!r.ok) throw new Error(r.status+" "+path+" -- add this file to /payloads/");
                          return r.arrayBuffer(); })
-      .then(function(b){ return send(b, label||path); })
-      .catch(function(e){ say(e.message||String(e),"#ff7a6b"); });
+      .then(function(b){ post(b, label, card); })
+      .catch(function(e){ say(e.message||String(e), "#ff7a6b"); });
   }
 
+  // ---------- payload catalogue ----------
+  var PAYLOADS = [
+    { g:"System", name:"Fan threshold",
+      desc:"Ramps the fan earlier so the APU runs cooler. Adjustable 40-90 C.",
+      file:"payloads/fan-threshold.bin", tag:"GoldHEN" },
+    { g:"System", name:"Temperature readout",
+      desc:"Prints current CPU/GPU temps to the on-screen overlay.",
+      file:"payloads/temp-monitor.bin", tag:"GoldHEN" },
+    { g:"System", name:"Firmware spoof",
+      desc:"Reports a different system version to games and PSN.",
+      file:"payloads/spoof-1352.bin", tag:"payload" },
+    { g:"System", name:"Restart GoldHEN",
+      desc:"Reloads the HEN without a reboot. Handy after a plugin glitch.",
+      file:"payloads/restart-goldhen.bin", tag:"GoldHEN" },
+    { g:"System", name:"Block updates",
+      desc:"Injects a DNS/update blocker so the console stops phoning home.",
+      file:"payloads/block-updates.bin", tag:"payload" },
+    { g:"Services", name:"FTP server 2121",
+      desc:"Starts GoldHEN's FTP server on 2121 for file transfers.",
+      file:"payloads/ftp.bin", tag:"service" },
+    { g:"Services", name:"BinLoader 9090",
+      desc:"Opens the classic BinLoader listener on port 9090.",
+      file:"payloads/binloader.bin", tag:"service" },
+    { g:"Services", name:"Debug settings",
+      desc:"Unlocks the hidden debug menu in system settings.",
+      file:"payloads/debug-settings.bin", tag:"payload" },
+    { g:"Services", name:"Remote Play patch",
+      desc:"Removes the account/hardware check for Remote Play.",
+      file:"payloads/remote-play.bin", tag:"payload" },
+    { g:"Logs", name:"Klog on",
+      desc:"Starts kernel logging to /data/klog.txt for troubleshooting.",
+      file:"payloads/klog-on.bin", tag:"GoldHEN" },
+    { g:"Logs", name:"Klog off",
+      desc:"Stops kernel logging and flushes the buffer.",
+      file:"payloads/klog-off.bin", tag:"GoldHEN" },
+    { g:"Logs", name:"Plugin reload",
+      desc:"Rescans /data/GoldHEN/plugins without restarting HEN.",
+      file:"payloads/plugin-reload.bin", tag:"GoldHEN" }
+  ];
+
+  var grid=document.getElementById("grid");
+  PAYLOADS.forEach(function(p){
+    var c=document.createElement("div");
+    c.className="card";
+    c.innerHTML = '<h3>'+p.name+'</h3><p>'+p.desc+'</p>'+
+      '<div class="tags"><span class="tag">'+p.g+'</span>'+
+      '<span class="tag p">'+p.tag+'</span></div>'+
+      '<button class="btn sm">SEND</button>';
+    c.querySelector("button").addEventListener("click", function(){
+      sendPath(p.file, p.name, c);
+    }, false);
+    grid.appendChild(c);
+  });
+
+  // ---------- init ----------
+  if (ON_PS4) {
+    if (!savedIP) {
+      ipEl.value = "127.0.0.1";
+      ipEl.placeholder = "127.0.0.1 (this console)";
+    }
+    document.getElementById("sub").textContent =
+      "Console detected \u2014 payloads go straight to this console (" + base() + ").";
+    ftpEl.value = "127.0.0.1";
+  } else {
+    ipEl.value = savedIP;
+    ftpEl.value = savedIP;
+  }
+  try{ portEl.value = localStorage.getItem("ps4port") || "9020"; }catch(e){}
+
+  if (location.protocol === "https:") {
+    document.body.classList.add("onhttps");
+    document.getElementById("warnbar").textContent =
+      "\u26A0 This page is served over HTTPS, so sending payloads to http://" +
+      (ON_PS4 ? "127.0.0.1" : (savedIP || "<ps4-ip>")) + ":" + portEl.value +
+      " will be blocked by the browser. Jailbreaking still works from here \u2014 for the payload panel, " +
+      "open this site over http:// (LAN server or an HTTP host).";
+  }
+
+  say(ON_PS4 ? "console detected \u2014 target "+base()
+             : "set the console IP, press SAVE, then TEST.", ON_PS4 ? "#7ee0c0" : "#ffc76b");
+
+  // ---------- console panel ----------
+  document.getElementById("save").onclick=function(){
+    savedIP = (ipEl.value.trim() && ipEl.value.trim() !== "127.0.0.1") ? ipEl.value.trim() : "";
+    remember(); say("saved: "+base(), "#7ee0c0");
+  };
+  portEl.addEventListener("change", function(){
+    remember(); say("payload port -> "+portEl.value, "#ffc76b");
+  });
   document.getElementById("test").onclick=function(){
+    remember();
     say("probing "+base());
-    fetch(base(),{method:"POST",mode:"no-cors",body:new Uint8Array(0)})
-      .then(function(){ say("port "+PORT+" reachable (no reply expected)","#7ee0c0"); })
-      .catch(function(e){ say("no response: "+(e.message||e),"#ffc76b"); });
+    fetch(base(), {method:"POST", mode:"no-cors", body:new Uint8Array(0)})
+      .then(function(){ say("port "+portEl.value+" reachable (reply not readable)","#7ee0c0"); })
+      .catch(function(){ say(mixedBlocked(), "#ffc76b"); });
   };
 
-  var fan=document.getElementById("fan"), fanv=document.getElementById("fanv");
-  try{ fan.value=localStorage.getItem("fan")||68; }catch(e){}
-  fanv.textContent=fan.value;
-  fan.oninput=function(){ fanv.textContent=fan.value; };
-  document.getElementById("fanbtn").onclick=function(){
-    try{ localStorage.setItem("fan", fan.value); }catch(e){}
-    sendFile("payloads/fan-threshold.bin","fan threshold = "+fan.value+" C");
-  };
-
-  document.getElementById("spoofbtn").onclick=function(){
-    var v=document.getElementById("spoof").value.replace(/\./g,"");
-    sendFile("payloads/spoof-"+v+".bin","firmware spoof = "+document.getElementById("spoof").value);
-  };
-
-  document.getElementById("ftpbtn").onclick=function(){ sendFile("payloads/ftp.bin","FTP server"); };
-  document.getElementById("binbtn").onclick=function(){ sendFile("payloads/binloader.bin","binloader 9090"); };
-  document.getElementById("restartbtn").onclick=function(){ sendFile("payloads/restart-goldhen.bin","restart GoldHEN"); };
-
+  // ---------- custom ----------
   document.getElementById("custombtn").onclick=function(){
     var p=document.getElementById("custom").value.trim();
     if(!p){ say("enter a path first","#ffc76b"); return; }
-    sendFile(p, p);
+    sendPath(p, p, null);
+  };
+  document.getElementById("filebtn").onclick=function(){
+    var f=document.getElementById("file").files[0];
+    if(!f){ say("pick a .bin first","#ffc76b"); return; }
+    post(f, f.name, null);
   };
 
-  if(!ipEl.value) say("set the console IP above, then TEST.","#ffc76b");
+  // ---------- ftp helper ----------
+  document.getElementById("ftpbtn").onclick=function(){
+    var host=(ftpEl.value.trim()||"192.168.1.50"),
+        port=(document.getElementById("ftpport").value||"2121");
+    location.href="ftp://"+host+":"+port+"/";
+    say("opened ftp://"+host+":"+port+"/","#7ee0c0");
+  };
+  document.getElementById("ftpcopy").onclick=function(){
+    var host=(ftpEl.value.trim()||"192.168.1.50"),
+        port=(document.getElementById("ftpport").value||"2121"),
+        s=host+":"+port;
+    try{ navigator.clipboard.writeText(s); say("copied "+s,"#7ee0c0"); }
+    catch(e){ say("FTP "+s,"#9fb4cd"); }
+  };
 })();
 </script>
 </body>
