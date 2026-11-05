@@ -1,7 +1,7 @@
 # PS4 13.50 GoldHEN Jailbreak Station
 
 A self-hosted web host for jailbreaking PlayStation 4 consoles on firmware
-13.50 (also 13.02 / 13.04 / 13.52). Press **START JAILBREAK** and the browser
+`13.50` also `13.02` , `13.04` and `13.52` and `14.00` jailbreak will be added soon. Press **START JAILBREAK** and the browser
 runs the WebKit + kernel chain, loads GoldHEN, and unlocks a payloads menu for
 fan threshold, firmware spoofing, FTP and custom `.bin` payloads.
 
