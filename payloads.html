@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="en" manifest="cache.appcache">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Payloads &middot; GoldHEN</title>
+<style>
+:root{--fg:#eaf1fb;--dim:#8a9ab2;--line:rgba(130,170,220,.16);
+      --c1:#5aa8ff;--c2:#7ee0c0;--ok:#57e3a0;--bad:#ff7a6b;--warn:#ffc76b}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%}
+body{background:#04060a;color:var(--fg);overflow-x:hidden;
+  font:15px/1.5 "Segoe UI",system-ui,-apple-system,sans-serif;padding:22px 16px 40px}
+body:before{content:"";position:fixed;inset:-40%;z-index:-2;
+  background:radial-gradient(40% 38% at 50% 0%,rgba(59,140,255,.3),transparent 70%),
+             radial-gradient(32% 28% at 88% 95%,rgba(0,230,180,.16),transparent 70%);
+  animation:drift 14s ease-in-out infinite alternate}
+@keyframes drift{from{transform:translate3d(-2%,-1%,0) scale(1)}
+                 to{transform:translate3d(2%,2%,0) scale(1.07)}}
+body:after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.35;
+  background-image:linear-gradient(rgba(130,170,220,.05) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(130,170,220,.05) 1px,transparent 1px);
+  background-size:52px 52px}
+.wrap{max-width:880px;margin:0 auto}
+.head{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:18px}
+.mark{display:flex;align-items:center;gap:11px}
+.orb{width:28px;height:28px;border-radius:9px;background:linear-gradient(145deg,#5aa8ff,#1b3fd6);
+  box-shadow:0 0 20px rgba(59,140,255,.7),inset 0 1px 0 rgba(255,255,255,.45)}
+.mark b{font-size:12px;letter-spacing:.28em;color:#d6e4f8}
+h1{font-size:30px;margin:0 0 2px;letter-spacing:-.02em;
+  background:linear-gradient(135deg,#fff,#8fd0ff 60%,#7ee0c0);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.sub{font-size:12.5px;color:var(--dim);margin-bottom:18px}
+.grid{display:flex;flex-wrap:wrap;gap:14px}
+.card{flex:1 1 250px;padding:16px 18px;border-radius:18px;
+  background:linear-gradient(180deg,rgba(18,24,34,.9),rgba(10,14,20,.94));
+  border:1px solid var(--line);box-shadow:0 18px 44px rgba(0,0,0,.55);
+  position:relative;overflow:hidden}
+.card h2{font-size:12px;letter-spacing:.2em;color:#a9c1dc;margin:0 0 4px;text-transform:uppercase}
+.card p{font-size:11.5px;color:#6d7f97;margin:0 0 14px;min-height:32px}
+.val{font-size:26px;font-weight:800;letter-spacing:-.02em;margin-bottom:8px}
+.val small{font-size:12px;color:#7c8fa8;font-weight:600;margin-left:3px}
+input[type=range]{-webkit-appearance:none;width:100%;height:4px;border-radius:9px;
+  background:linear-gradient(90deg,#5aa8ff,#7ee0c0);outline:none;margin:6px 0 12px}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;
+  border-radius:50%;background:#eaf6ff;border:2px solid #5aa8ff;
+  box-shadow:0 0 14px rgba(90,168,255,.9);cursor:pointer}
+select,input[type=text]{width:100%;padding:10px 12px;border-radius:11px;margin-bottom:12px;
+  background:rgba(255,255,255,.04);color:var(--fg);border:1px solid var(--line);
+  font:600 13px/1 "Segoe UI",system-ui,sans-serif;outline:none}
+.btn{display:inline-block;padding:11px 22px;border:0;border-radius:999px;cursor:pointer;
+  font:700 11.5px/1 "Segoe UI",system-ui,sans-serif;letter-spacing:.18em;color:#04121e;
+  background:linear-gradient(135deg,#7ee0c0,#5aa8ff);
+  box-shadow:0 8px 24px rgba(59,140,255,.45);text-decoration:none}
+.btn:active{transform:scale(.97)}
+.btn.ghost{background:transparent;color:#b8cde6;border:1px solid rgba(130,170,220,.32);
+  box-shadow:none}
+.btn.ghost:hover{border-color:rgba(126,224,192,.6);color:#dff6ee}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.out{margin-top:16px;padding:12px 14px;border-radius:14px;border:1px solid var(--line);
+  background:rgba(6,10,16,.8);font:11.5px/1.5 ui-monospace,Consolas,monospace;
+  color:#93a7c2;white-space:pre-wrap;min-height:44px}
+.out b{color:#7ee0c0}
+.note{font-size:11px;color:#5d6d84;margin-top:14px;line-height:1.6}
+.badge{font-size:9.5px;letter-spacing:.16em;padding:3px 9px;border-radius:999px;
+  border:1px solid rgba(126,224,192,.4);color:#7ee0c0;background:rgba(126,224,192,.08);
+  margin-left:8px;vertical-align:middle}
+.badge.warn{border-color:rgba(255,199,107,.4);color:#ffc76b;background:rgba(255,199,107,.08)}
+.credit{text-align:center;margin-top:24px;font-size:10px;letter-spacing:.26em;
+  color:#414e63;text-transform:uppercase}
+.credit span{color:#6f8fb8}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="head">
+    <div class="mark"><div class="orb"></div><b>GOLDHEN</b></div>
+    <div class="row">
+      <a class="btn ghost" href="index.html">HOME</a>
+      <a class="btn ghost" href="jb.html?start=1">RE-JAILBREAK</a>
+    </div>
+  </div>
+
+  <h1>Payloads</h1>
+  <div class="sub">Everything below is sent to the console over the local network, so the PS4 and this browser must be on the same Wi-Fi.</div>
+
+  <div class="grid">
+    <div class="card">
+      <h2>Console address</h2>
+      <p>The PS4's LAN IP. Find it in Settings &rarr; Network &rarr; View Connection Status.</p>
+      <input type="text" id="ip" placeholder="192.168.1.50" value="">
+      <div class="row">
+        <button class="btn" id="test">TEST</button>
+        <button class="btn ghost" id="save">SAVE</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Fan threshold <span class="badge">GOLDHEN</span></h2>
+      <p>Target temperature before the fan ramps up. Lower = cooler console, louder.</p>
+      <div class="val"><span id="fanv">68</span><small>&deg;C</small></div>
+      <input type="range" id="fan" min="40" max="90" step="1" value="68">
+      <button class="btn" id="fanbtn">APPLY</button>
+    </div>
+
+    <div class="card">
+      <h2>Firmware spoof <span class="badge warn">PAYLOAD</span></h2>
+      <p>Reports a different system version to games and PSN. Needs the matching spoof payload in /payloads/.</p>
+      <select id="spoof">
+        <option>9.00</option><option>9.60</option><option>10.50</option>
+        <option>11.00</option><option>12.00</option><option selected>13.50</option>
+        <option>13.52</option><option>14.00</option>
+      </select>
+      <button class="btn" id="spoofbtn">APPLY</button>
+    </div>
+
+    <div class="card">
+      <h2>Services</h2>
+      <p>Toggle the helper payloads GoldHEN can host from the jailbroken console.</p>
+      <div class="row" style="margin-bottom:12px">
+        <button class="btn" id="ftpbtn">FTP 2121</button>
+        <button class="btn ghost" id="binbtn">BINLOADER 9090</button>
+      </div>
+      <div class="row">
+        <button class="btn ghost" id="restartbtn">RESTART GOLDHEN</button>
+      </div>
+    </div>
+
+    <div class="card" style="flex:1 1 100%">
+      <h2>Custom payload</h2>
+      <p>Send any <code>.bin</code> payload to the console at port 9020 &mdash; the standard GoldHEN payload port.</p>
+      <div class="row">
+        <input type="text" id="custom" placeholder="payloads/my-payload.bin" style="flex:1 1 240px;margin:0">
+        <button class="btn" id="custombtn">SEND</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="out" id="out">ready.</div>
+
+  <div class="note">
+    Fan threshold and firmware spoof also live natively in GoldHEN: press the <b>PS button</b> while a game is
+    running &rarr; <b>GoldHEN Settings</b>. The controls above are shortcuts that push the equivalent payload from
+    <code>/payloads/</code>; if a file is missing you'll get an error naming exactly what to drop in.
+  </div>
+
+  <div class="credit">coded by <span>fico</span></div>
+</div>
+
+<script>
+(function () {
+  var out=document.getElementById("out");
+  var ipEl=document.getElementById("ip");
+  var PORT=9020;
+
+  function say(msg, cls){
+    var t=new Date().toTimeString().slice(0,8);
+    out.innerHTML='<b>['+t+']</b> '+(cls?'<span style="color:'+cls+'">':'')+msg+
+                  (cls?'</span>':'')+'\n'+out.innerHTML.split("\n").slice(0,6).join("\n");
+  }
+
+  try{ ipEl.value=localStorage.getItem("ps4ip")||""; }catch(e){}
+
+  document.getElementById("save").onclick=function(){
+    try{ localStorage.setItem("ps4ip", ipEl.value.trim()); }catch(e){}
+    say("address saved: "+ipEl.value.trim(),"#7ee0c0");
+  };
+
+  function base(){ return "http://"+(ipEl.value.trim()||"192.168.1.50")+":"+PORT+"/"; }
+
+  // POST a binary to the payload port. no-cors: the console has no CORS headers,
+  // so we fire-and-forget and treat "no throw" as sent.
+  function send(buf, label){
+    return fetch(base(), {method:"POST", mode:"no-cors", body:buf})
+      .then(function(){ say("sent: "+label,"#7ee0c0"); })
+      .catch(function(e){ say("failed: "+label+" ("+(e.message||e)+")","#ff7a6b"); });
+  }
+
+  function sendFile(path, label){
+    say("fetching "+path);
+    return fetch(path,{cache:"no-cache"})
+      .then(function(r){ if(!r.ok) throw new Error("HTTP "+r.status+" for "+path);
+                         return r.arrayBuffer(); })
+      .then(function(b){ return send(b, label||path); })
+      .catch(function(e){ say(e.message||String(e),"#ff7a6b"); });
+  }
+
+  document.getElementById("test").onclick=function(){
+    say("probing "+base());
+    fetch(base(),{method:"POST",mode:"no-cors",body:new Uint8Array(0)})
+      .then(function(){ say("port "+PORT+" reachable (no reply expected)","#7ee0c0"); })
+      .catch(function(e){ say("no response: "+(e.message||e),"#ffc76b"); });
+  };
+
+  var fan=document.getElementById("fan"), fanv=document.getElementById("fanv");
+  try{ fan.value=localStorage.getItem("fan")||68; }catch(e){}
+  fanv.textContent=fan.value;
+  fan.oninput=function(){ fanv.textContent=fan.value; };
+  document.getElementById("fanbtn").onclick=function(){
+    try{ localStorage.setItem("fan", fan.value); }catch(e){}
+    sendFile("payloads/fan-threshold.bin","fan threshold = "+fan.value+" C");
+  };
+
+  document.getElementById("spoofbtn").onclick=function(){
+    var v=document.getElementById("spoof").value.replace(/\./g,"");
+    sendFile("payloads/spoof-"+v+".bin","firmware spoof = "+document.getElementById("spoof").value);
+  };
+
+  document.getElementById("ftpbtn").onclick=function(){ sendFile("payloads/ftp.bin","FTP server"); };
+  document.getElementById("binbtn").onclick=function(){ sendFile("payloads/binloader.bin","binloader 9090"); };
+  document.getElementById("restartbtn").onclick=function(){ sendFile("payloads/restart-goldhen.bin","restart GoldHEN"); };
+
+  document.getElementById("custombtn").onclick=function(){
+    var p=document.getElementById("custom").value.trim();
+    if(!p){ say("enter a path first","#ffc76b"); return; }
+    sendFile(p, p);
+  };
+
+  if(!ipEl.value) say("set the console IP above, then TEST.","#ffc76b");
+})();
+</script>
+</body>
+</html>
