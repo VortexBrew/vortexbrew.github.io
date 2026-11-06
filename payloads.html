@@ -122,18 +122,27 @@ body.onhttps .warnbar{display:block}
       </div>
       <button class="btn" id="fanbtn">APPLY</button>
     </div>
+    <div class="note" id="fanstate" style="margin-top:8px">
+      Uses the per-degree bins in <code>payloads/fan-thresholds/</code>.
+    </div>
   </div>
 
   <div class="panel">
-    <h2>Firmware spoof</h2>
+    <h2>Firmware spoof <span style="color:#ffc76b">&middot; cosmetic &middot; needs a bin</span></h2>
     <div class="row">
       <label class="f"><span>Report as</span>
         <select id="spoof">
           <option>9.00</option><option>9.60</option><option>10.50</option>
           <option>11.00</option><option>12.00</option><option>13.00</option>
-          <option>13.52</option><option selected>14.00</option>
+          <option selected>13.52</option><option>14.00</option>
         </select></label>
+      <label class="f"><span>Upload spoof .bin for this version</span>
+        <input type="file" id="spoofbin" accept=".bin"></label>
+      <button class="btn" id="spoofsave">STORE</button>
       <button class="btn" id="spoofbtn">APPLY</button>
+    </div>
+    <div class="note" style="margin-top:10px" id="spoofstate">
+      No spoof bin stored. Spoofing is per-firmware &mdash; there is no universal spoof payload.
     </div>
   </div>
 
@@ -163,8 +172,8 @@ body.onhttps .warnbar{display:block}
   <div class="out" id="out">ready.</div>
 
   <div class="note">
-    Fan threshold and firmware spoof are also native in GoldHEN: <b>PS button &rarr; GoldHEN Settings</b>.
-    Payloads bundled by <code>update-payloads.ps1</code>; a card that errors names the exact missing file.
+    Bundled payloads come from <code>update-payloads.ps1</code>. A card that errors names the exact missing file.
+    GoldHEN Settings only appears while a game is running (PS button in-game).
   </div>
   <div class="credit">coded by <span>fico</span></div>
 </div>
@@ -180,6 +189,7 @@ body.onhttps .warnbar{display:block}
       +"\n"+out.innerHTML.split("\n").slice(0,12).join("\n");
   }
 
+  // ---------- console auto-detection ----------
   var ON_PS4=/PlayStation\s+4/i.test(navigator.userAgent);
   try{ ON_PS4=ON_PS4||(localStorage.getItem("onps4")==="1"); }catch(e){}
   var savedIP=""; try{ savedIP=localStorage.getItem("ps4ip")||""; }catch(e){}
@@ -207,7 +217,6 @@ body.onhttps .warnbar{display:block}
       .then(function(b){ post(b,label,card); })
       .catch(function(e){ say(e.message||String(e),"#ff7a6b"); });
   }
-  // try several candidate paths, first one that exists wins
   function sendFirst(cands,label,card,failMsg){
     var i=0;
     (function next(){
@@ -220,7 +229,8 @@ body.onhttps .warnbar{display:block}
   }
 
   // ---------- fan threshold ----------
-  var fan=document.getElementById("fan"), fanv=document.getElementById("fanv");
+  var fan=document.getElementById("fan"), fanv=document.getElementById("fanv"),
+      fanState=document.getElementById("fanstate");
   try{ fan.value=localStorage.getItem("fan")||68; }catch(e){}
   fanv.textContent=fan.value;
   fan.oninput=function(){ fanv.textContent=fan.value; };
@@ -233,23 +243,72 @@ body.onhttps .warnbar{display:block}
        "payloads/fan-thresholds/"+T+"c.bin",
        "payloads/fan/"+T+".bin"],
       "fan threshold "+T+"C", null,
-      "no fan bin for "+T+"C in payloads/fan-thresholds/ -- run update-payloads.ps1 or drop "+T+".bin there"
+      "no fan bin for "+T+"C -- run update-payloads.ps1, or drop "+T+".bin into payloads/fan-thresholds/"
     );
   };
 
-  // ---------- firmware spoof ----------
+  // ---------- firmware spoof (user-supplied bin, stored on this device) ----------
+  var spoofSel=document.getElementById("spoof"), spoofState=document.getElementById("spoofstate");
+
+  function spoofKey(){ return "spoofbin_"+spoofSel.value.replace(/\./g,""); }
+
+  function b64ToBuf(b64){
+    var bin=atob(b64), len=bin.length, u8=new Uint8Array(len);
+    for(var i=0;i<len;i++) u8[i]=bin.charCodeAt(i);
+    return u8.buffer;
+  }
+  function bufToB64(buf){
+    var u8=new Uint8Array(buf), s="";
+    for(var i=0;i<u8.length;i++) s+=String.fromCharCode(u8[i]);
+    return btoa(s);
+  }
+  function showSpoofState(){
+    var v="";
+    try{ v=localStorage.getItem(spoofKey())||""; }catch(e){}
+    var sz=v?Math.round(v.length*0.75/1024):0;
+    spoofState.textContent=v
+      ? "Stored spoof bin for "+spoofSel.value+" ("+sz+" KB). APPLY will send it."
+      : "No spoof bin stored for "+spoofSel.value+
+        ". Spoofing is per-firmware \u2014 upload one, or use a per-FW spoof payload.";
+  }
+  document.getElementById("spoofsave").onclick=function(){
+    var f=document.getElementById("spoofbin").files[0];
+    if(!f){ spoofState.textContent="Pick a .bin first."; return; }
+    if(f.size>400000){
+      spoofState.textContent="Too big for local storage ("+Math.round(f.size/1024)+" KB).";
+      return;
+    }
+    var r=new FileReader();
+    r.onload=function(){
+      try{
+        localStorage.setItem(spoofKey(),bufToB64(r.result));
+        showSpoofState();
+        say("stored spoof bin for "+spoofSel.value,"#7ee0c0");
+      }catch(e){
+        spoofState.textContent="Storage refused the file \u2014 keep the bin under ~200 KB.";
+      }
+    };
+    r.readAsArrayBuffer(f);
+  };
   document.getElementById("spoofbtn").onclick=function(){
-    var v=document.getElementById("spoof").value;
+    var stored="";
+    try{ stored=localStorage.getItem(spoofKey())||""; }catch(e){}
+    if(stored){
+      post(b64ToBuf(stored),"firmware spoof "+spoofSel.value,null);
+      return;
+    }
     sendFirst(
-      ["payloads/spoof-"+v.replace(/\./g,"")+".bin",
-       "payloads/spoof-"+v+".bin",
-       "payloads/spoof/spoof-"+v+".bin"],
-      "firmware spoof "+v, null,
-      "no spoof-"+v+" bin bundled. On 13.50/14.00 the firmware spoof is native: PS button -> GoldHEN Settings -> Spoof FW"
+      ["payloads/spoof-"+spoofSel.value.replace(/\./g,"")+".bin",
+       "payloads/spoof/spoof-"+spoofSel.value+".bin"],
+      "firmware spoof "+spoofSel.value, null,
+      "no spoof bin for "+spoofSel.value+
+      " -- upload one above (per-FW spoof payloads only exist for some firmwares)"
     );
   };
+  spoofSel.addEventListener("change",showSpoofState,false);
+  showSpoofState();
 
-  // ---------- cards from real manifest ----------
+  // ---------- cards from manifest ----------
   var cardsEl=document.getElementById("cards");
   fetch("payloads/manifest.json",{cache:"no-cache"})
     .then(function(r){ if(!r.ok) throw 0; return r.json(); })
@@ -276,7 +335,7 @@ body.onhttps .warnbar{display:block}
       say("payloads/manifest.json not found -- run update-payloads.ps1 to bundle the bins.","#ffc76b");
     });
 
-  // ---------- init / console / custom / ftp ----------
+  // ---------- init ----------
   if(ON_PS4){
     if(!savedIP){ ipEl.value="127.0.0.1"; ipEl.placeholder="127.0.0.1 (this console)"; }
     document.getElementById("sub").textContent=
@@ -298,10 +357,12 @@ body.onhttps .warnbar{display:block}
   say(ON_PS4?"console detected -- target "+base()
             :"set the console IP, press SAVE, then TEST.",ON_PS4?"#7ee0c0":"#ffc76b");
 
+  // ---------- console panel ----------
   document.getElementById("save").onclick=function(){
     savedIP=(ipEl.value.trim()&&ipEl.value.trim()!=="127.0.0.1")?ipEl.value.trim():"";
-    try{ localStorage.setItem("ps4ip",savedIP||""); localStorage.setItem("ps4port",portEl.value);
-         if(ON_PS4)localStorage.setItem("onps4","1"); }catch(e){}
+    try{ localStorage.setItem("ps4ip",savedIP||"");
+         localStorage.setItem("ps4port",portEl.value);
+         if(ON_PS4) localStorage.setItem("onps4","1"); }catch(e){}
     say("saved: "+base(),"#7ee0c0");
   };
   document.getElementById("test").onclick=function(){
@@ -310,6 +371,8 @@ body.onhttps .warnbar{display:block}
       .then(function(){ say("port "+portEl.value+" reachable","#7ee0c0"); })
       .catch(function(){ say(mixedBlocked(),"#ffc76b"); });
   };
+
+  // ---------- custom ----------
   document.getElementById("custombtn").onclick=function(){
     var p=document.getElementById("custom").value.trim();
     if(!p){ say("enter a path first","#ffc76b"); return; }
@@ -320,6 +383,8 @@ body.onhttps .warnbar{display:block}
     if(!f){ say("pick a .bin first","#ffc76b"); return; }
     post(f,f.name,null);
   };
+
+  // ---------- ftp ----------
   document.getElementById("ftpbtn").onclick=function(){
     var host=(ftpEl.value.trim()||"192.168.1.50"),
         port=(document.getElementById("ftpport").value||"2121");
@@ -327,7 +392,8 @@ body.onhttps .warnbar{display:block}
   };
   document.getElementById("ftpcopy").onclick=function(){
     var s=(ftpEl.value.trim()||"192.168.1.50")+":"+(document.getElementById("ftpport").value||"2121");
-    try{ navigator.clipboard.writeText(s); say("copied "+s,"#7ee0c0"); }catch(e){ say("FTP "+s,"#9fb4cd"); }
+    try{ navigator.clipboard.writeText(s); say("copied "+s,"#7ee0c0"); }
+    catch(e){ say("FTP "+s,"#9fb4cd"); }
   };
 })();
 </script>
