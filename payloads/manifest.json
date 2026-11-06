@@ -1,0 +1,158 @@
+﻿[
+    {
+        "group":  "Tools",
+        "name":  "db-rebuilder-v0.2.bin",
+        "desc":  "Payload.",
+        "file":  "payloads/db-rebuilder-v0.2.bin"
+    },
+    {
+        "group":  "Tools",
+        "name":  "elfldr-4-50-5-07_7-00-9-60.bin",
+        "desc":  "Payload.",
+        "file":  "payloads/elfldr-4-50-5-07_7-00-9-60.bin"
+    },
+    {
+        "group":  "Tools",
+        "name":  "elfldr.elf",
+        "desc":  "Payload.",
+        "file":  "payloads/elfldr.elf"
+    },
+    {
+        "group":  "Tools",
+        "name":  "np-fake-signin-ps4.elf",
+        "desc":  "Payload.",
+        "file":  "payloads/np-fake-signin-ps4.elf"
+    },
+    {
+        "group":  "Tools",
+        "name":  "ps4-app-dumper.bin",
+        "desc":  "Payload.",
+        "file":  "payloads/ps4-app-dumper.bin"
+    },
+    {
+        "group":  "Tools",
+        "name":  "ps4-app2usb.bin",
+        "desc":  "Payload.",
+        "file":  "payloads/ps4-app2usb.bin"
+    },
+    {
+        "group":  "Tools",
+        "name":  "ps4-backup.bin",
+        "desc":  "Payload.",
+        "file":  "payloads/ps4-backup.bin"
+    },
+    {
+        "group":  "Tools",
+        "name":  "ps4-disable-aslr.bin",
+        "desc":  "Payload.",
+        "file":  "payloads/ps4-disable-aslr.bin"
+    },
+    {
+        "group":  "Tools",
+        "name":  "ps4-disable-updates-4-50-5-07.bin",
+        "desc":  "Payload.",
+        "file":  "payloads/ps4-disable-updates-4-50-5-07.bin"
+    },
+    {
+        "group":  "Tools",
+        "name":  "ps4-disable-updates-4-73-13-52.bin",
+        "desc":  "Payload.",
+        "file":  "payloads/ps4-disable-updates-4-73-13-52.bin"
+    },
+    {
+        "group":  "Tools",
+        "name":  "ps4-enable-browser-4-50-5-07.bin",
+        "desc":  "Payload.",
+        "file":  "payloads/ps4-enable-browser-4-50-5-07.bin"
+    },
+    {
+        "group":  "Tools",
+        "name":  "ps4-enable-updates-4-73-13-52.bin",
+        "desc":  "Payload.",
+        "file":  "payloads/ps4-enable-updates-4-73-13-52.bin"
+    },
+    {
+        "group":  "Tools",
+        "name":  "ps4-exit-idu.bin",
+        "desc":  "Payload.",
+        "file":  "payloads/ps4-exit-idu.bin"
+    },
+    {
+        "group":  "Tools",
+        "name":  "ps4-ftp-4-50-5-07.bin",
+        "desc":  "Payload.",
+        "file":  "payloads/ps4-ftp-4-50-5-07.bin"
+    },
+    {
+        "group":  "Tools",
+        "name":  "ps4-ftp-4-73-13-52.bin",
+        "desc":  "Payload.",
+        "file":  "payloads/ps4-ftp-4-73-13-52.bin"
+    },
+    {
+        "group":  "Tools",
+        "name":  "ps4-history-blocker.bin",
+        "desc":  "Payload.",
+        "file":  "payloads/ps4-history-blocker.bin"
+    },
+    {
+        "group":  "Tools",
+        "name":  "ps4-kernel-dumper.bin",
+        "desc":  "Payload.",
+        "file":  "payloads/ps4-kernel-dumper.bin"
+    },
+    {
+        "group":  "Tools",
+        "name":  "ps4-module-dumper-4-73-13-00.bin",
+        "desc":  "Payload.",
+        "file":  "payloads/ps4-module-dumper-4-73-13-00.bin"
+    },
+    {
+        "group":  "Tools",
+        "name":  "ps4-permanent-uart.bin",
+        "desc":  "Payload.",
+        "file":  "payloads/ps4-permanent-uart.bin"
+    },
+    {
+        "group":  "Tools",
+        "name":  "ps4-pup-decrypt.bin",
+        "desc":  "Payload.",
+        "file":  "payloads/ps4-pup-decrypt.bin"
+    },
+    {
+        "group":  "Tools",
+        "name":  "ps4-restore.bin",
+        "desc":  "Payload.",
+        "file":  "payloads/ps4-restore.bin"
+    },
+    {
+        "group":  "Tools",
+        "name":  "ps4-rif-renamer.bin",
+        "desc":  "Payload.",
+        "file":  "payloads/ps4-rif-renamer.bin"
+    },
+    {
+        "group":  "Tools",
+        "name":  "ps4-southbridge-detector.bin",
+        "desc":  "Payload.",
+        "file":  "payloads/ps4-southbridge-detector.bin"
+    },
+    {
+        "group":  "Tools",
+        "name":  "ps4-websrv.bin",
+        "desc":  "Payload.",
+        "file":  "payloads/ps4-websrv.bin"
+    },
+    {
+        "group":  "Tools",
+        "name":  "ps4debug-ng_v1.3.2.bin",
+        "desc":  "Payload.",
+        "file":  "payloads/ps4debug-ng_v1.3.2.bin"
+    },
+    {
+        "group":  "Tools",
+        "name":  "WebRTE-5-05_6-72_7-00-11-00.bin",
+        "desc":  "Payload.",
+        "file":  "payloads/WebRTE-5-05_6-72_7-00-11-00.bin"
+    }
+]
