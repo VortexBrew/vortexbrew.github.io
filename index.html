@@ -55,6 +55,26 @@ body:after{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;opaci
   filter:drop-shadow(0 6px 26px rgba(90,168,255,.35))}
 .hero small{display:block;font-size:.24em;letter-spacing:.42em;font-weight:600;
   -webkit-text-fill-color:#93a7c2;margin-top:10px}
+
+/* the two big chain buttons */
+.choice{display:flex;gap:14px;justify-content:center;margin:14px 0 4px;flex-wrap:wrap}
+.pick{flex:1 1 240px;max-width:280px;padding:18px 14px 14px;border-radius:20px;
+  border:1px solid var(--line);background:rgba(255,255,255,.03);cursor:pointer;
+  transition:border-color .25s,box-shadow .25s,transform .15s}
+.pick:hover{border-color:rgba(126,224,192,.6);
+  box-shadow:0 0 0 1px rgba(126,224,192,.25),0 10px 30px rgba(59,140,255,.25)}
+.pick:active{transform:scale(.97)}
+.pick:focus{outline:3px solid rgba(126,224,192,.55);outline-offset:3px}
+.pick .fw{font-size:30px;font-weight:800;letter-spacing:-.02em;line-height:1;
+  background:linear-gradient(135deg,#fff,#8fd0ff);-webkit-background-clip:text;
+  -webkit-text-fill-color:transparent}
+.pick .lbl{margin-top:7px;font-size:10.5px;letter-spacing:.3em;color:var(--dim)}
+.pick .eng{margin-top:6px;font-size:9.5px;letter-spacing:.14em;color:#4d6079}
+.pick .dotline{margin-top:11px;font-size:10px;letter-spacing:.2em;color:var(--warn)}
+.pick.sel{border-color:rgba(87,227,160,.65);
+  box-shadow:0 0 0 1px rgba(87,227,160,.4),0 12px 36px rgba(87,227,160,.18)}
+.pick.sel .dotline{color:var(--ok)}
+
 .ring{position:relative;width:190px;height:190px;margin:10px auto 6px}
 .ring svg{width:100%;height:100%;transform:rotate(-90deg)}
 .ring circle{fill:none;stroke-width:6;stroke-linecap:round}
@@ -76,6 +96,7 @@ body:after{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;opaci
   animation:glow 2.2s ease-in-out infinite alternate;position:relative;overflow:hidden}
 .go:active{transform:scale(.975)}
 .go:focus{outline:3px solid rgba(126,224,192,.55);outline-offset:4px}
+.go[disabled]{opacity:.45;pointer-events:none}
 @keyframes glow{from{box-shadow:0 10px 26px rgba(59,140,255,.35)}
                 to{box-shadow:0 12px 46px rgba(59,140,255,.85)}}
 .ghost{padding:13px 26px;border-radius:999px;cursor:pointer;text-decoration:none;
@@ -99,11 +120,27 @@ body.running .go,body.running .hint{display:none}
     <div class="chip" id="chip">FW DETECTING</div>
   </div>
 
-  <div class="hero">13.50<small>JAILBREAK GoldHEN</small></div>
+  <div class="hero">GOLDHEN<small>PS4 JAILBREAK HOST</small></div>
+
+  <!-- the two chains -->
+  <div class="choice">
+    <button class="pick" id="pick14" type="button">
+      <div class="fw">14.00</div>
+      <div class="lbl">GoldHEN v2.4b18.13</div>
+      <div class="eng">ENGINE: AFTERGLOW (apm UAF)</div>
+      <div class="dotline" id="m14">&bull;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&bull;</div>
+    </button>
+    <button class="pick" id="pick13" type="button">
+      <div class="fw">13.XX</div>
+      <div class="lbl">GoldHEN &middot; ps4-hen</div>
+      <div class="eng">ENGINE: BUG 663 (aio race)</div>
+      <div class="dotline" id="m13">&bull;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&bull;</div>
+    </button>
+  </div>
 
   <div class="ring">
     <svg viewBox="0 0 190 190">
-      <defs><linearGradient id="grad" x1="0" y1="0" x2="1" y2="1">
+      <defs><linearGradient id="grad" x1="0" y1="0" y2="1" x2="1">
         <stop offset="0" stop-color="#5aa8ff"/>
         <stop offset=".55" stop-color="#6cc0f5"/>
         <stop offset="1" stop-color="#7ee0c0"/>
@@ -118,20 +155,20 @@ body.running .go,body.running .hint{display:none}
     </div>
   </div>
 
-  <div class="status" id="status">Waiting for you&hellip;</div>
+  <div class="status" id="status">Choose your firmware&hellip;</div>
   <div class="sub" id="sub"></div>
 
   <div class="actions">
-    <button class="go" id="go" autofocus>START JAILBREAK</button>
+    <button class="go" id="go" disabled autofocus>START JAILBREAK</button>
     <a class="ghost" href="payloads.html">PAYLOADS</a>
   </div>
-  <div class="hint">press START &middot; console must be on 13.XX</div>
+  <div class="hint">pick a firmware &middot; then press START</div>
 
   <div class="foot">
-    <span>PS4 &middot; 13.02 &ndash; 13.52 CHAIN</span>
+    <span>PS4 &middot; 13.02 &ndash; 13.52 (BUG 663) &middot; 14.00 (AFTERGLOW)</span>
     <span id="cache">CACHE: CHECKING</span>
   </div>
-  <div class="credit">coded by <span>HomeBrew</span></div>
+  <div class="credit">coded by <span>HomeBrew</span> &middot; 14.00 engine by <span>well0nez/m0zz</span></div>
 </div>
 
 <script>
@@ -140,32 +177,63 @@ body.running .go,body.running .hint{display:none}
   var bar=document.getElementById("bar"), num=document.getElementById("num"),
       phase=document.getElementById("phase"), status=document.getElementById("status"),
       sub=document.getElementById("sub"), chip=document.getElementById("chip"),
-      cache=document.getElementById("cache"), goBtn=document.getElementById("go");
-  var pct=0, started=false;
+      cache=document.getElementById("cache"), goBtn=document.getElementById("go"),
+      p14=document.getElementById("pick14"), p13=document.getElementById("pick13"),
+      m14=document.getElementById("m14"), m13=document.getElementById("m13");
+  var pct=0, started=false, mode=null;   // "1400" or "13xx"
 
   function setProgress(v,t){pct=Math.max(pct,Math.min(100,v));
     bar.setAttribute("stroke-dashoffset",CIRC*(1-pct/100));
     num.innerHTML=Math.round(pct)+'<i>%</i>'; if(t)phase.textContent=t.toUpperCase();}
   function setStatus(t,c){status.textContent=t;status.className="status "+(c||"");}
 
+  /* firmware detection — only used to suggest & warn, never to auto-run */
   var m=/PlayStation\s+4[\/ ](\d+)\.(\d+)/.exec(navigator.userAgent);
   var key=null,fwnum=null;
   if(m){var ms=parseInt(m[2],16).toString(16); if(ms.length<2)ms="0"+ms;
     key=m[1]+"."+ms; fwnum=parseInt(m[1],10)*100+parseInt(ms,10);}
-  var SUPPORTED={1302:1,1304:1,1350:1,1352:1};
+
   var params=new URLSearchParams(location.search);
   var forced=params.get("force")==="1";
-  var supported=forced||(fwnum!==null&&SUPPORTED[fwnum]===1);
+  var onPS4 = m!==null;
 
   chip.textContent="FW "+(key||"UNKNOWN");
-  chip.className="chip"+(supported?"":" bad");
-  sub.innerHTML="kernel table <b>"+(supported?"matched":"not listed")+
-                "</b> &middot; bug 663 webkit &middot; aio kernel race";
-  setProgress(8,"ready");
-  setStatus(supported?"Ready to arm the chain.":"Firmware not listed \u2014 you can still try.","warn");
+  if(!onPS4){ chip.textContent="NOT PS4"; chip.className="chip bad"; }
+  else if(key==="14.00"){ chip.className="chip";
+    /* preselect the 14.00 button so the natural tap is the right one */
+    select("1400");
+  }
+  else if({1302:1,1304:1,1350:1,1352:1}[fwnum]||forced){ chip.className="chip";
+    select("13xx");
+  } else { chip.className="chip bad"; }
 
-  function targetUrl(){var q="start=1"; if(forced)q+="&force=1";
-    if(params.get("log")==="1")q+="&log=1"; return "jb.html?"+q;}
+  function select(which){
+    mode=which;
+    p14.classList.toggle("sel",which==="1400");
+    p13.classList.toggle("sel",which==="13xx");
+    m14.innerHTML=which==="1400"?"&#10003; SELECTED":"&bull;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&bull;";
+    m13.innerHTML=which==="13xx"?"&#10003; SELECTED":"&bull;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&bull;";
+    goBtn.disabled=false;
+    if(which==="1400"){
+      sub.innerHTML="kernel stage <b>afterglow (apm UAF)</b> &middot; webkit 13.52-identical &middot; <b>GoldHEN</b> 2.4b18.13";
+      setStatus("14.00 chain ready. Save your game data, then start.","");
+    }else{
+      sub.innerHTML="kernel table <b>matched</b> &middot; bug 663 webkit &middot; aio kernel race &middot; <b>GoldHEN</b>";
+      setStatus("13.XX chain ready. Save your game data, then start.","");
+    }
+    setProgress(8,"ready");
+  }
+
+  p14.addEventListener("click",function(){select("1400");},false);
+  p13.addEventListener("click",function(){select("13xx");},false);
+
+  function targetUrl(){
+    if(mode==="1400")
+      return "jb2.html?afterglow=run&mode=goldhen&start=1&log=1";
+    var q="start=1"; if(forced)q+="&force=1";
+    if(params.get("log")==="1")q+="&log=1";
+    return "jb.html?"+q;
+  }
   function go(){setProgress(100,"launch");
     setStatus("Handing over to the exploit chain\u2026","warn");
     setTimeout(function(){location.replace(targetUrl());},350);}
@@ -193,7 +261,7 @@ body.running .go,body.running .hint{display:none}
   }
 
   function start(){
-    if(started)return; started=true; document.body.classList.add("running");
+    if(started||!mode)return; started=true; document.body.classList.add("running");
     var ac=window.applicationCache;
     if(!ac||!document.documentElement.hasAttribute("manifest")){go();return;}
     if(!navigator.onLine){cache.textContent="CACHE: OFFLINE-READY";
