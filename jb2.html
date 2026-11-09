@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="en" manifest="cache.appcache">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PS4 14.00 &middot; GoldHEN</title>
+<style>
+:root{--fg:#eaf1fb;--dim:#8a9ab2;--line:rgba(130,170,220,.16);
+      --c1:#5aa8ff;--c2:#7ee0c0;--ok:#57e3a0;--bad:#ff7a6b;--warn:#ffc76b}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{background:#04060a;color:var(--fg);overflow:hidden;
+  font:16px/1.45 "Segoe UI",system-ui,-apple-system,sans-serif}
+body:before{content:"";position:fixed;inset:-40%;
+  background:radial-gradient(40% 38% at 50% 8%,rgba(59,140,255,.28),transparent 70%),
+             radial-gradient(32% 28% at 88% 92%,rgba(0,230,180,.16),transparent 70%);
+  animation:drift 14s ease-in-out infinite alternate}
+@keyframes drift{from{transform:translate3d(-2%,-1%,0) scale(1);opacity:.85}
+                 to{transform:translate3d(2%,2%,0) scale(1.07);opacity:1}}
+body:after{content:"";position:fixed;inset:0;pointer-events:none;opacity:.35;
+  background-image:linear-gradient(rgba(130,170,220,.05) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(130,170,220,.05) 1px,transparent 1px);
+  background-size:52px 52px}
+.shell{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:min(740px,90vw);padding:22px 28px 16px;border-radius:24px;
+  background:linear-gradient(180deg,rgba(18,24,34,.88),rgba(10,14,20,.94));
+  border:1px solid var(--line);
+  box-shadow:0 34px 90px rgba(0,0,0,.7),0 1px 0 rgba(255,255,255,.06) inset;
+  backdrop-filter:blur(18px)}
+.top{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.mark{display:flex;align-items:center;gap:10px}
+.orb{width:26px;height:26px;border-radius:8px;background:linear-gradient(145deg,#5aa8ff,#1b3fd6);
+  box-shadow:0 0 20px rgba(59,140,255,.7),inset 0 1px 0 rgba(255,255,255,.45)}
+.mark b{font-size:12px;letter-spacing:.28em;color:#d6e4f8}
+.timer{font-size:12px;color:var(--dim);letter-spacing:.12em;font-variant-numeric:tabular-nums}
+.row{display:flex;gap:22px;align-items:center}
+.ring{position:relative;width:184px;height:184px;flex:0 0 auto}
+.ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring circle{fill:none;stroke-width:7;stroke-linecap:round}
+.track{stroke:rgba(130,170,220,.12)}
+.bar{stroke:url(#g2);transition:stroke-dashoffset .5s cubic-bezier(.4,0,.2,1);
+  filter:drop-shadow(0 0 12px rgba(90,168,255,.8))}
+.spin{stroke:rgba(126,224,192,.3);stroke-dasharray:20 600;stroke-width:7;
+  animation:rot 1.1s linear infinite;transform-origin:92px 92px;opacity:0}
+body.running .spin{opacity:1}
+@keyframes rot{to{transform:rotate(360deg)}}
+.core{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.num{font-size:38px;font-weight:800;letter-spacing:-.02em;line-height:1}
+.num i{font-size:15px;font-style:normal;color:#8fb6e0}
+.cap{font-size:9.5px;letter-spacing:.28em;color:var(--dim);margin-top:4px}
+.list{flex:1;min-width:0;display:flex;flex-direction:column;gap:7px;font-size:12.5px}
+.step{display:flex;align-items:center;gap:9px;color:#5d6d84;transition:color .3s}
+.step .dot{width:9px;height:9px;border-radius:50%;background:#242e3d;flex:0 0 auto;
+  transition:background .3s,box-shadow .3s}
+.step.live{color:#dbe7f6}
+.step.live .dot{background:var(--c1);box-shadow:0 0 12px rgba(90,168,255,.95);
+  animation:pulse 1s ease-in-out infinite alternate}
+.step.done{color:var(--ok)}
+.step.done .dot{background:var(--ok);box-shadow:0 0 9px rgba(87,227,160,.65)}
+@keyframes pulse{from{opacity:.45}to{opacity:1}}
+.go{margin:16px auto 2px;display:block;padding:15px 46px;border:0;cursor:pointer;
+  border-radius:999px;font:700 16px/1 "Segoe UI",system-ui,sans-serif;letter-spacing:.2em;
+  color:#04121e;background:linear-gradient(135deg,#7ee0c0,#5aa8ff);
+  box-shadow:0 12px 34px rgba(59,140,255,.5),inset 0 1px 0 rgba(255,255,255,.55);
+  animation:glow 2.2s ease-in-out infinite alternate}
+.go:active{transform:scale(.975)}
+.go:focus{outline:3px solid rgba(126,224,192,.55);outline-offset:4px}
+@keyframes glow{from{box-shadow:0 10px 26px rgba(59,140,255,.35)}
+                to{box-shadow:0 12px 46px rgba(59,140,255,.85)}}
+.hint{margin-top:9px;text-align:center;font-size:11px;color:#5d6d84;letter-spacing:.09em}
+body.running .go,body.running .hint{display:none}
+.stage{font-size:13px;color:#c3d6ee;min-height:19px}
+.log{margin-top:14px;border-top:1px solid var(--line);padding-top:10px;
+  font:11.5px/1.5 ui-monospace,Consolas,monospace;color:#5c6a7e;
+  height:58px;overflow:hidden;white-space:pre-wrap}
+.log b{color:#9fb4cd;font-weight:600}
+.credit{margin-top:11px;text-align:center;font-size:10px;letter-spacing:.26em;
+  color:#414e63;text-transform:uppercase}
+.credit span{color:#6f8fb8}
+body.done .bar{stroke:#57e3a0;filter:drop-shadow(0 0 14px rgba(87,227,160,.9))}
+body.done .num,body.done .cap{color:var(--ok)}
+body.fail .bar{stroke:#ff7a6b;filter:drop-shadow(0 0 14px rgba(255,122,107,.8))}
+body.fail .num,body.fail .cap{color:var(--bad)}
+#msg{display:none;margin-top:12px;font-size:14px;text-align:center;line-height:1.55}
+body.done #msg{display:block;color:var(--ok)}
+body.fail #msg{display:block;color:var(--bad)}
+/* the watchdog / retry notice that ag/jb.js appends into #out */
+.notice{margin:.6em auto;max-width:640px;padding:.7em 1em;border:2px solid #e66;
+  background:#2a1414;color:#f99;font:700 15px/1.4 "Segoe UI",system-ui,sans-serif;
+  border-radius:10px;text-align:center}
+/* full log when ?log=1 */
+body.log .shell{max-height:92vh;overflow:auto}
+body.log #wrap{position:fixed;inset:0;left:0;top:auto;bottom:0;height:34vh;
+  padding:10px 16px;overflow:auto;z-index:5;
+  background:rgba(4,6,10,.97);font:11px/1.5 ui-monospace,Consolas,monospace;
+  color:#9fb4cd;white-space:pre-wrap}
+body.log #state{font:700 13px/1.4 "Segoe UI",system-ui,sans-serif;color:#c3d6ee;
+  margin-bottom:6px}
+</style>
+</head>
+<body>
+<div class="shell">
+  <div class="top">
+    <div class="mark"><div class="orb"></div><b>GOLDHEN &middot; 14.00</b></div>
+    <div class="timer" id="timer">00:00</div>
+  </div>
+
+  <div class="row">
+    <div class="ring">
+      <svg viewBox="0 0 184 184">
+        <defs><linearGradient id="g2" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#5aa8ff"/><stop offset=".55" stop-color="#6cc0f5"/>
+          <stop offset="1" stop-color="#7ee0c0"/></linearGradient></defs>
+        <circle class="track" cx="92" cy="92" r="82"/>
+        <circle class="bar" id="bar" cx="92" cy="92" r="82"
+                stroke-dasharray="515.22" stroke-dashoffset="515.22"/>
+        <circle class="spin" cx="92" cy="92" r="82"/>
+      </svg>
+      <div class="core">
+        <div class="num" id="num">0<i>%</i></div>
+        <div class="cap" id="cap">READY</div>
+      </div>
+    </div>
+    <div class="list" id="list"></div>
+  </div>
+
+  <button class="go" id="go" autofocus>START JAILBREAK</button>
+  <div class="hint">press the button or ENTER to arm the afterglow chain</div>
+
+  <div class="stage" id="stage"><em>idle &mdash; nothing running yet</em></div>
+  <div class="log" id="log"></div>
+  <div id="msg"></div>
+  <a id="pbtn" class="go" style="text-decoration:none" href="payloads.html">PAYLOADS &rarr;</a>
+  <div class="credit">14.00 engine by <span>well0nez/m0zz</span> &middot; UI by <span>HomeBrew</span></div>
+</div>
+
+<!-- DOM contract: ag/jb.js reads and writes these three by id. Do not rename. -->
+<div id="wrap" style="position:fixed;left:-9999px"><div id="state"></div><div id="out"></div></div>
+
+<script type="module">
+  var CIRC=2*Math.PI*82;
+  var bar=document.getElementById("bar"), num=document.getElementById("num"),
+      cap=document.getElementById("cap"), stage=document.getElementById("stage"),
+      logEl=document.getElementById("log"), msg=document.getElementById("msg"),
+      timer=document.getElementById("timer"), goBtn=document.getElementById("go"),
+      pbtn=document.getElementById("pbtn"), params=new URLSearchParams(location.search);
+
+  var STEPS=[
+    {label:"WebKit primitive (raw13 host)",pct:12},
+    {label:"Kernel base recovery",pct:24},
+    {label:"apm UAF: groom & leak",pct:38},
+    {label:"apm UAF: trigger",pct:52},
+    {label:"Kernel patches applied",pct:68},
+    {label:"uid 0 &mdash; jailbroken",pct:80},
+    {label:"Handles defused",pct:90},
+    {label:"GoldHEN payload injected",pct:97}
+  ];
+  var listEl=document.getElementById("list");
+  STEPS.forEach(function(s,i){var d=document.createElement("div");
+    d.className="step"; d.id="s"+i;
+    d.innerHTML='<span class="dot"></span><span>'+s.label+"</span>";
+    listEl.appendChild(d);});
+
+  var pct=0, started=false, t0=0, finished=false;
+  setInterval(function(){ if(!started||finished)return;
+    var s=Math.floor((Date.now()-t0)/1000);
+    timer.textContent=("0"+Math.floor(s/60)).slice(-2)+":"+("0"+(s%60)).slice(-2);},500);
+
+  function draw(v,t){ pct=Math.max(pct,Math.min(100,v));
+    bar.setAttribute("stroke-dashoffset",CIRC*(1-pct/100));
+    num.innerHTML=Math.round(pct)+'<i>%</i>'; if(t)cap.textContent=t.toUpperCase();
+    var target=0; STEPS.forEach(function(s,i){if(pct>=s.pct)target=i;});
+    for(var i=0;i<STEPS.length;i++){var el=document.getElementById("s"+i);
+      el.className="step"+(i<target?" done":i===target?" live":"");}}
+
+  function note(line){var b=document.createElement("b"); b.textContent=line+"\n";
+    logEl.appendChild(b); while(logEl.childNodes.length>5)logEl.removeChild(logEl.firstChild);}
+
+  /* afterglow emits mark("AG", "[N] ...") — numbered steps [1]..[10] */
+  var MAP=[
+    {re:/\[1\]|\[2\]/,v:16,c:"primitive"},
+    {re:/\[3\]|\[4\]/,v:30,c:"kernel base"},
+    {re:/\[5\]/,v:44,c:"groom"},
+    {re:/\[6\]|\[7\]/,v:56,c:"trigger"},
+    {re:/\[8\]|patches in place|refusing to go on/i,v:70,c:"kpatch"},
+    {re:/\[9\]|uid 0|not root/i,v:82,c:"uid 0"},
+    {re:/\[10\]|interface is live/i,v:90,c:"kif"},
+    {re:/handles defused|may close/i,v:94,c:"defused"},
+    {re:/done -- jailbroken|enabler running/i,v:100,c:"goldhen"}
+  ];
+
+  var outEl=document.getElementById("out"), stateEl=document.getElementById("state");
+  var seen=0, tagged=0;
+
+  function scan(){
+    if(!started)return;
+    var lines=(outEl.textContent||"").split("\n");
+    if(lines.length>seen){
+      for(var i=seen;i<lines.length;i++){
+        var L=lines[i].trim(); if(!L)continue;
+        /* hard failure states first — they matter on 14.00 */
+        if(/handles are NOT defused/i.test(L)&&!finished){
+          finished=true; document.body.classList.add("fail");
+          cap.textContent="DO NOT CLOSE";
+          draw(90,"defuse failed");
+          msg.textContent="Handles NOT defused \u2014 do NOT close the browser. "+
+            "Cold shutdown (hold power 7s) only. Then reopen and retry.";
+          note(L.slice(0,88)); continue;
+        }
+        if(/exploit failed|please retry/i.test(L)&&!finished){
+          document.body.classList.add("fail");
+          cap.textContent="FAILED";
+          msg.textContent="Attempt missed \u2014 nothing was touched. "+
+            "Reopen the browser and retry (no reboot needed).";
+          note(L.slice(0,88)); continue;
+        }
+        if(/gave up after/i.test(L)&&!finished){
+          document.body.classList.add("fail");
+          cap.textContent="FAILED";
+          msg.textContent="Chain gave up \u2014 reopen the browser and retry.";
+          note(L.slice(0,88)); continue;
+        }
+        var hit=null;
+        for(var k=0;k<MAP.length;k++){if(MAP[k].re.test(L)){hit=MAP[k];break;}}
+        if(hit){draw(hit.v,hit.c); note(L.slice(0,88));}
+        else if(++tagged%3===0){draw(pct+2); note(L.slice(0,88));}
+      }
+      seen=lines.length;
+    }
+    if(stateEl.textContent) stage.innerHTML=stateEl.textContent;
+
+    if(!finished&&document.body.classList.contains("done")){
+      finished=true;
+      draw(100,"goldhen");
+      msg.textContent="Success \u2014 GoldHEN loaded. Returning to menu&hellip; "+
+        "(the console will hop back to the host by itself).";
+      pbtn.style.display="inline-block";
+    }else if(!finished&&document.body.classList.contains("fail")){
+      finished=true;
+      cap.textContent="FAILED";
+      msg.textContent="Attempt missed \u2014 reopen the browser and retry "+
+        "(no reboot needed unless told otherwise).";
+    }
+  }
+
+  function start(){
+    if(started)return; started=true; t0=Date.now();
+    document.body.classList.add("running");
+    stage.innerHTML="<em>initialising afterglow engine&hellip;</em>";
+    draw(6,"arming"); note("arming afterglow chain \u2014 FW 14.00");
+    /* ag/jb.js runs the chain on import: webkit stage, then afterglow, then GoldHEN */
+    import("./ag/jb.js").catch(function(e){
+      document.body.classList.add("fail"); cap.textContent="LOAD FAILED";
+      msg.textContent="Could not load exploit engine: "+((e&&e.message)||e);
+    });
+  }
+
+  goBtn.addEventListener("click",start,false);
+  document.addEventListener("keydown",function(e){
+    if((e.key==="Enter"||e.keyCode===13)&&!started){e.preventDefault();start();}},false);
+
+  var mo=new MutationObserver(scan);
+  mo.observe(document.getElementById("wrap"),{childList:true,subtree:true,characterData:true});
+  setInterval(scan,400);
+  draw(0,"ready");
+  try{goBtn.focus();}catch(e){}
+  /* auto-start: the user already chose 14.00 and pressed START on the landing
+     page — landing on this page IS the intent (and the referrer guard in
+     ag/jb.js requires having come from index.html, which navigation provides) */
+  setTimeout(start,400);
+</script>
+</body>
+</html>
